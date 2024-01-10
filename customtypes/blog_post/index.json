@@ -1,29 +1,37 @@
 {
-  "id": "page",
-  "label": "Page",
+  "id": "blog_post",
+  "label": "Blog Post",
   "format": "page",
   "repeatable": true,
   "status": true,
   "json": {
     "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
       "uid": {
         "config": {
           "label": "UID"
         },
         "type": "UID"
       },
+      "date": {
+        "type": "Date",
+        "config": {
+          "label": "Date",
+          "placeholder": ""
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "content_index": {
-              "type": "SharedSlice"
-            },
-            "tech_list": {
-              "type": "SharedSlice"
-            },
-            "biography": {
+            "text_blog": {
               "type": "SharedSlice"
             }
           }
