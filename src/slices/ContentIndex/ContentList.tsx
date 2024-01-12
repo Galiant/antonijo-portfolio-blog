@@ -1,6 +1,13 @@
+'use client';
+
 import { Content, isFilled } from '@prismicio/client';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 import { MdArrowOutward } from 'react-icons/md';
+
+gsap.registerPlugin(ScrollTrigger);
 
 type ContentListProps = {
   items: Content.BlogPostDocument[] | Content.ProjectDocument[];
@@ -13,15 +20,46 @@ function ContentList({
   contentType,
   viewMoreText = 'Read More',
 }: ContentListProps) {
+  const component = useRef(null);
+  const itemsRef = useRef<Array<HTMLLIElement | null>>([]);
+
   const urlPrefix = contentType === 'Blog' ? '/blog' : '/project';
+
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      itemsRef.current.forEach(item => {
+        gsap.fromTo(
+          item,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.3,
+            ease: 'elastic.out(1, 0.3)',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top bottom-=100px',
+              end: 'bottom center',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
+      return () => ctx.revert(); // cleanup
+    }, component);
+  }, []);
 
   return (
     <div>
-      <ul className='grid border-b border-b-slate-100'>
+      <ul className='grid border-b border-b-slate-100' ref={component}>
         {items.map((item, index) => (
           <>
             {isFilled.keyText(item.data.title) && (
-              <li key={index} className='list-item opacity-0f'>
+              <li
+                key={index}
+                className='list-item opacity-0f'
+                ref={el => (itemsRef.current[index] = el)}
+              >
                 <Link
                   href={urlPrefix + '/' + item.uid}
                   className='flex flex-col justify-between border-t border-t-slate-100 py-10 text-slate-200 md:flex-row'
