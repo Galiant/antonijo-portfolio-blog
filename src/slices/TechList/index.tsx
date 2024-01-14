@@ -29,7 +29,7 @@ const TechList = ({ slice }: TechListProps): JSX.Element => {
           trigger: component.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 4,
+          scrub: 6,
         },
       });
 
