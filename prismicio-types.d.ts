@@ -4,7 +4,7 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type BlogPostDocumentDataSlicesSlice = ImageBlockSlice | TextBlogSlice;
+type BlogPostDocumentDataSlicesSlice = TextBlockSlice | ImageBlockSlice;
 
 /**
  * Content for Blog Post documents
